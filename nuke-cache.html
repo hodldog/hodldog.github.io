@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Nuke Cache</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 50px auto; text-align: center; }
+    button { padding: 20px 40px; font-size: 20px; background: #ff4444; color: white; border: none; border-radius: 10px; cursor: pointer; }
+    .success { color: green; margin-top: 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>🧨 NUKE CACHE</h1>
+  <p>Нажми кнопку чтобы полностью очистить кеш и перейти к тесту</p>
+  <button onclick="nuke()">ОЧИСТИТЬ ВСЁ</button>
+  <div id="log"></div>
+
+  <script>
+    async function nuke() {
+      const log = document.getElementById('log');
+      log.innerHTML = '<p>Очистка...</p>';
+      
+      // 1. Unregister ALL service workers
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for (const reg of regs) {
+          await reg.unregister();
+          log.innerHTML += '<p>✓ SW unregistered</p>';
+        }
+      }
+      
+      // 2. Delete ALL caches
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        for (const key of keys) {
+          await caches.delete(key);
+          log.innerHTML += `<p>✓ Cache deleted: ${key}</p>`;
+        }
+      }
+      
+      // 3. Clear storage
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      log.innerHTML += '<p class="success">✅ Готово! Переходим...</p>';
+      
+      setTimeout(() => {
+        location.href = '/on/test-rescue.html?v=4&nuked=' + Date.now();
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

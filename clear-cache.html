@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Clear Cache - StealthGuard</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+    h1 { color: #28a745; }
+    button { padding: 15px 30px; font-size: 16px; cursor: pointer; background: #28a745; color: white; border: none; border-radius: 5px; }
+    .success { color: green; margin-top: 20px; }
+    .error { color: red; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🧹 Clear Browser Cache</h1>
+  <p>Click the button below to clear all cached data and reload the app.</p>
+  <button onclick="clearAll()">Clear Cache & Reload</button>
+  <div id="status"></div>
+
+  <script>
+    async function clearAll() {
+      const status = document.getElementById('status');
+      
+      try {
+        // 1. Unregister service workers
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          for (const reg of regs) {
+            await reg.unregister();
+          }
+        }
+        
+        // 2. Clear caches
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          for (const key of keys) {
+            await caches.delete(key);
+          }
+        }
+        
+        // 3. Clear localStorage
+        localStorage.clear();
+        
+        // 4. Clear sessionStorage
+        sessionStorage.clear();
+        
+        status.innerHTML = '<div class="success">✅ Cache cleared! Reloading...</div>';
+        
+        // 5. Force reload without cache
+        setTimeout(() => {
+          window.location.href = './test-rescue.html?v=' + Date.now();
+        }, 1000);
+        
+      } catch (err) {
+        status.innerHTML = '<div class="error">❌ Error: ' + err.message + '</div>';
+      }
+    }
+  </script>
+</body>
+</html>

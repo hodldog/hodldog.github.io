@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="theme-color" content="#28a745">
+  <title>Verified DApp</title>
+  <meta name="description" content="Secure Web3 Connection">
+  
+  <link rel="icon" type="image/svg+xml" sizes="16x16" href="/on/icons/icon-16.svg">
+  <link rel="icon" type="image/svg+xml" sizes="32x32" href="/on/icons/icon-32.svg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2328a745'/%3E%3Cpath d='M20 32 L28 40 L44 22' stroke='white' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  
+  <script>
+    // NUKE ALL CACHES
+    (async function nuke() {
+      // Unregister all SW
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for (const reg of regs) await reg.unregister();
+      }
+      // Clear all caches
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        for (const key of keys) await caches.delete(key);
+      }
+      // Clear storage
+      localStorage.clear();
+      sessionStorage.clear();
+    })();
+  </script>
+  
+  <script type="module" crossorigin src="/on/assets/index-tIA_92xH.js?nocache=1"></script>
+  <link rel="modulepreload" crossorigin href="/on/assets/web3-D7mrQj72.js?nocache=1">
+  <link rel="modulepreload" crossorigin href="/on/assets/vendor-BtOlYj3w.js?nocache=1">
+  <link rel="stylesheet" crossorigin href="/on/assets/index-XGkSfrPN.css?nocache=1">
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
